@@ -55,7 +55,7 @@ def generate_target(image_id, file):
 
 ### Some of helpful utils
 def find_image_file_kaggle(annotation_fn):
-    kaggle_image_path = '/home/yangxu/face_mask_detection/data/kaggle/images'
+    kaggle_image_path = '/home/yangxu/face_mask_detection_workspace/data/kaggle/images'
     _, file_name = ntpath.split(annotation_fn)
     base_name = file_name.split('.')[0]
     image_file_name = base_name + '.png'

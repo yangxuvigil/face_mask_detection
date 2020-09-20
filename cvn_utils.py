@@ -80,6 +80,9 @@ class JsonFileProcessor(object):
         else:
             return 0
             
+    def get_num_shapes(self):
+        return len(self.json_data['shapes'])
+    
     def load_boxes_and_labels(self):        
         for shape in self.json_data['shapes']:                 
             original_box = self.compute_original_box(shape)
