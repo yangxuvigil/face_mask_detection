@@ -9,8 +9,7 @@ from torchvision import transforms, datasets, models
 
 def convert_one_box_label_to_shape_dict(box, label, index):
     xmin, ymin, xmax, ymax = box
-    has_mask = True if label in [1, 2] else False
-    print(type(xmin))
+    has_mask = True if label in [1, 2] else False    
     shape_dict = {'label' : 'face',
                   'points' : [
                       [xmin, ymin],
