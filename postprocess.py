@@ -37,16 +37,20 @@ def convert_prediction_tensors_to_shapes(prediction):
 class PredictionPostProcessor(object):
     
     def __init__(self):
-        self._version = 'unknown'
-        self._flags = 'unknown'
+        self._version = '4.5.6'
+        self._flags = {}
         self._image_path = 'unknown'
-        self._image_data = 'unknown'
+        self._image_data = None
+        self._image_height = None
+        self._image_width = None
     
     def convert_prediction_tensors_to_json_file(self, prediction, json_file):
         dict = {'version' : self._version,
                 'flags' : self._flags,
-                'image_path' : self._image_path,
-                'image_data' : self._image_data,
+                'imagePath' : self._image_path,
+                'imageData' : self._image_data,
+                #'imageHeight': self._iamge_height
+                #'imageWidth': self._image_width,
                 'shapes' : convert_prediction_tensors_to_shapes(prediction)}
         with open(json_file, 'w') as out_file:
             json.dump(dict, out_file, indent=4)

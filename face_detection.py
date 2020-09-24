@@ -11,12 +11,11 @@ import matplotlib.patches as patches
 import os
 from importlib import reload
 import cvn_utils
-import kaggle_utils
 import postprocess
 from postprocess import PredictionPostProcessor
 import math
 from torch.utils.data.sampler import SubsetRandomSampler
-
+from subprocess import Popen
 
 def get_model_instance_segmentation(num_classes):
     # load an instance segmentation model pre-trained pre-trained on COCO
@@ -58,6 +57,8 @@ def main():
                         help='label directory')
     parser.add_argument('--model-file', type=str, required=True,
                         help='model.pt file')
+    parser.add_argument('--review', type=bool, required=False, default=False,
+                        help='open labelme tool when finished')
     args = parser.parse_args()
     
     model = get_model_instance_segmentation(3)
@@ -78,9 +79,10 @@ def main():
     
     for image_file in image_files:
         print('processing image file: ', image_file)
+        postprocessor._image_path = image_file
         base = os.path.basename(image_file)
         base_name = os.path.splitext(base)[0]
-        json_name = base_name + '.model_inference.json'
+        json_name = base_name +'.json' # + '.model_inference.json'
         json_file = os.path.join(args.label_directory, json_name)       
 #         print('json file = ', json_file)
              
@@ -91,10 +93,13 @@ def main():
         preds = model(input_tensors)
 #         print('run model inference done!')
 #         print('labels =', preds[0]['labels'])
-        assert preds is not None
+        #assert preds is not None 
         assert len(preds) == 1
         postprocessor.convert_prediction_tensors_to_json_file(preds[0], json_file)
 #         break
+    if args.review:
+        print('opening label tool for review...')
+        Popen(['labelme', args.image_directory, '--output', args.label_directory])
 
 
 if __name__ == '__main__':
