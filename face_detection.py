@@ -99,7 +99,7 @@ def main():
 #         break
     if args.review:
         print('opening label tool for review...')
-        Popen(['labelme', args.image_directory, '--output', args.label_directory])
+        Popen(['labelme', args.image_directory, '--output', args.label_directory, '--flags', 'flags.txt'])
 
 
 if __name__ == '__main__':
